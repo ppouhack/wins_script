@@ -1,3 +1,44 @@
+""" input ip or log tile return geoip(country, city)
+
+    arg_parser.add_argument('--ip', '-i', help='ip string')
+    arg_parser.add_argument('--file', '-f', help='log file')
+    arg_parser.add_argument('--city', '-c', action='store_true', help='search city (default: country)')
+    arg_parser.add_argument('--number', '-n', type=int, default=3, help='print top number (default: 3)')
+
+
+Example of input ip return geoip
+
+    command) python honeynet_geoip.py -i 175.113.82.83
+    > South Korea
+
+    # if return city, input -c option
+    command) python honeynet_geoip.py -i 175.113.82.83 -c
+    > Uijeongbu-si
+
+Example of input log file return geoip
+
+    command) python honeynet_geoip.py -f sample.log
+
+    > # TOP 1
+    > [Src] South Korea:45
+    > [Dst] South Korea:20
+
+    > # TOP 2
+    > [Src] France:3
+    > [Dst] United States:7
+
+    > # TOP 3
+    > [Src] China:3
+    > [Dst] China:6
+
+    # if return city, input -c option
+    command) python honeynet_geoip.py -f sample.log -c
+
+    # if return TOP N, input -n option(default:3)
+    command) python honeynet_geoip.py -f sample.log -n 5
+"""
+
+
 import argparse
 import re
 import geoip2.database as gd
@@ -102,8 +143,9 @@ class searchGeoIp():
 
         # count start 1
         for count, (src, dst) in enumerate(zip(sort_src, sort_dst),1):
-            print(f"{count}.src -> {src[0]}:{src[1]}")
-            print(f"{count}.dst -> {dst[0]}:{dst[1]}")
+            print(f"# TOP {count}")
+            print(f"[Src] {src[0]}:{src[1]}")
+            print(f"[Dst] {dst[0]}:{dst[1]}")
             print()
             if count == number:
                 break
