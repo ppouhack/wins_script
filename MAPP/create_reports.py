@@ -14,7 +14,7 @@ def csv2json(inputfile):
 
             if dict['signature_name']:
                 data['signature_created'] = "Yes"
-                data['signature_name'] = dict['signature_name']
+                data['signature_name'] = f"{dict['signature_name']} ({dict['cve_number']})"
             else:
                 data['signature_created'] = "No"
                 data['signature_name'] = ''
@@ -32,7 +32,7 @@ if __name__ == "__main__":
     Create MAPP Reports    
     '''
     arg_parser = argparse.ArgumentParser(description=text)
-    arg_parser.add_argument('--input', '-i', default='wins.csv', help='input file (default:win.csv')
+    arg_parser.add_argument('--input', '-i', default='wins.csv', help='input file (default:win.csv)')
 
     args = arg_parser.parse_args()
 
