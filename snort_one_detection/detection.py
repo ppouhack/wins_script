@@ -93,18 +93,14 @@ class snort_detection():
             diff = difflib.unified_diff(diff_check1, diff_check2,fromfile='origin', tofile='append')
 
             # diff result print
-            diff_result = []
-            for line in diff:
-                if re.search('^\+\d', line):
-                    diff_result.append(line)
+            diff_result = [line for line in diff if re.search('^\+\d',line)]
 
             if diff_result:
                 for result in diff_result:
                     print(result)
-                    print()
             else:
                 print("[Not Found]")
-                print()
+            print()
 
 if __name__ == "__main__":
     text = '''
